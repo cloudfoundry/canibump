@@ -30,6 +30,9 @@
         border-radius: 5px;
     }
   </style>
+  <% if params[:autorefresh] %>
+  <meta http-equiv="refresh" content="30" >
+  <% end %>
 </head>
 <body>
 <div id="center" class="<%= can_i_bump ? "yes" : "no" %>">
