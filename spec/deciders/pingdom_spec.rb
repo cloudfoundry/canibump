@@ -23,7 +23,7 @@ describe Decider::Pingdom do
       end
 
       it "says NO" do
-        expect(decider.can_i_bump?).to be_false
+        expect(decider.can_i_bump?).to eq(false)
         expect(decider.reason).to match /500 Internal Server Error/
       end
     end
@@ -35,7 +35,7 @@ describe Decider::Pingdom do
       end
 
       it "says NO" do
-        expect(decider.can_i_bump?).to be_false
+        expect(decider.can_i_bump?).to eq(false)
         expect(decider.reason).to match /no data/
       end
     end
@@ -54,7 +54,7 @@ describe Decider::Pingdom do
       end
 
       it "says NO" do
-        expect(decider.can_i_bump?).to be_false
+        expect(decider.can_i_bump?).to eq(false)
         expect(decider.reason).to match /Pingdom: failed to connect to a.target_hostname, c.target_hostname/
       end
     end
@@ -72,7 +72,7 @@ describe Decider::Pingdom do
       end
 
       it "ignores checks not matching the hostname" do
-        expect(decider.can_i_bump?).to be_true
+        expect(decider.can_i_bump?).to eq(true)
       end
     end
   end

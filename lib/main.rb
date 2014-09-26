@@ -1,11 +1,12 @@
 require "sinatra"
 $:.unshift(File.expand_path("../../lib", __FILE__))
 
-require "deciders/jenkins"
+require "deciders/ci"
 require "deciders/pingdom"
 require "final_decider"
+require "input_validator"
 
-jenkins = Decider::Jenkins.new
+ci = Decider::CI.new
 pingdom = Decider::Pingdom.new(
   ENV["PINGDOM_APP_KEY"],
   ENV["PINGDOM_USERNAME"],
@@ -13,7 +14,7 @@ pingdom = Decider::Pingdom.new(
   ENV["PINGDOM_HOSTNAME"]
 )
 
-final_decider = FinalDecider.new([jenkins, pingdom])
+final_decider = FinalDecider.new([ci, pingdom])
 
 put "/:value" do |value|
   if params["token"] != ENV["CAN_I_BUMP_TOKEN"]
@@ -21,12 +22,21 @@ put "/:value" do |value|
     return
   end
 
-  if value != "yes" && value != "no"
+
+  begin
+    ok_to_bump, buildnumber = InputValidator.new(value, params["buildnumber"]).values
+  rescue InputValidator::IncorrectValue => e
     status 500
-    body "Incorrect value"
-  else
-    jenkins.set_can_i_bump(value, params["reason"])
+    body 'Incorrect value'
+    return
+  rescue InputValidator::InvalidBuildNumber
+    status 500
+    body 'Invalid buildnumber'
+    return
   end
+
+  ci.set_can_i_bump(ok_to_bump, params["reason"], buildnumber)
+  status 200
 end
 
 get "/" do

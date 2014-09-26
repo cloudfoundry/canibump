@@ -1,5 +1,5 @@
 require "deciders/pingdom"
-require "deciders/jenkins"
+require "deciders/ci"
 
 class FinalDecider
   def initialize(deciders)
