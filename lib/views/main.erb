@@ -37,8 +37,9 @@
 <body>
 <div id="center" class="<%= can_i_bump ? "yes" : "no" %>">
     <h1>Can I bump cf-release?</h1>
+    <h2>Last updated by CI build: [<%= build_number %>]</h2>
     <div id="can_i_bump">
-    <%= can_i_bump ? "<i class='icon-smile'></i> YES" : "<i class='icon-frown'></i> NO" %>
+      <%= can_i_bump ? "<i class='icon-smile'></i> YES" : "<i class='icon-frown'></i> NO" %>
     </div>
     <% reasons.each do |reason| %>
     <% if reason %>

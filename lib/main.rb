@@ -40,5 +40,5 @@ put "/:value" do |value|
 end
 
 get "/" do
-  erb :main, :locals => { can_i_bump: final_decider.can_i_bump?, reasons: final_decider.reasons }
+  erb :main, :locals => { can_i_bump: final_decider.can_i_bump?, reasons: final_decider.reasons, build_number: ci.build_number }
 end

@@ -1,6 +1,6 @@
 module Decider
   class CI
-    attr_reader :reason
+    attr_reader :reason, :build_number
 
     def initialize
       @value == false
