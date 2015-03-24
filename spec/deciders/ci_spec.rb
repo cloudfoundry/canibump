@@ -53,6 +53,18 @@ describe Decider::CI do
           expect(ci.reason).to eq("EVERYTHING IS GREEEN!")
         end
       end
+
+      context "when the build number is 0" do
+        before do
+          ci.set_can_i_bump(true, "EVERYTHING IS GREEEN!", 42)
+        end
+
+        it "sets the bump state" do
+          ci.set_can_i_bump(false, "build is red", 0)
+          expect(ci.can_i_bump?).to be_falsey
+          expect(ci.reason).to eq("build is red")
+        end
+      end
     end
   end
 end
