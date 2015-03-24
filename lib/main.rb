@@ -42,3 +42,9 @@ end
 get "/" do
   erb :main, :locals => { can_i_bump: final_decider.can_i_bump?, reasons: final_decider.reasons, build_number: ci.build_number }
 end
+
+
+get "/slack" do
+  body final_decider.can_i_bump? ? "YES, Last build: #{ci.build_number}" : "NO because #{final_decider.reasons}, Last build: #{ci.build_number}"
+  return
+end

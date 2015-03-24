@@ -41,6 +41,32 @@ describe "Sinatra Application" do
     end
   end
 
+  describe 'GET /slack' do
+    it "returns no by default" do
+      response = RestClient.get "#{app_url}/slack"
+      expect(response.body).to match /NO/
+      expect(response.body).to match /no data yet/
+    end
+
+    context "when the value is set to no" do
+      before do
+        make_put_request("no?reason=idunno&buildnumber=123")
+      end
+
+      it "returns no and prints outs the reason" do
+        response = RestClient.get "#{app_url}/slack"
+        expect(response.body).to match /NO/
+        expect(response.body).to match /idunno/
+      end
+
+      it "does not return html" do
+        response = RestClient.get "#{app_url}/slack"
+        expect(response.body).to_not match /\<html\>/
+
+      end
+    end
+  end
+
   describe 'PUT /:value' do
     context "when the value is not yes or no" do
       it "should fail" do
