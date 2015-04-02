@@ -51,20 +51,22 @@
     <% end %>
 </div>
 
-<script type="text/javscript">
-function getParameterByName(name) {
+<script type="text/javascript">
+(function() {
+  function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-        results = regex.exec(location.search);
+    results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
+  }
 
-var autoRefresh = getParameterByName("auto-refresh");
-if (autoRefresh) {
-  window.setTimeout(function() {
-    window.location.reload();
-  }, parseInt(autoRefresh));
-}
+  var autoRefresh = getParameterByName("auto-refresh");
+  if (autoRefresh) {
+    window.setTimeout(function() {
+      window.location.reload();
+    }, parseInt(autoRefresh));
+  }
+})();
 </script>
 </body>
 </html>
