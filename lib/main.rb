@@ -16,6 +16,8 @@ pingdom = Decider::Pingdom.new(
 
 final_decider = FinalDecider.new([ci, pingdom])
 
+set :protection, :except => :frame_options
+
 put "/:value" do |value|
   if params["token"] != ENV["CAN_I_BUMP_TOKEN"]
     status 401
