@@ -22,21 +22,35 @@ describe "Sinatra Application" do
   end
 
   describe "GET /" do
-    it "returns no by default" do
-      response = make_get_request
-      expect(response.body).to match /NO/
-      expect(response.body).to match /no data yet/
-    end
-
-    context "when the value is set to no" do
-      before do
-        make_put_request("no?reason=idunno&buildnumber=123")
-      end
-
-      it "returns no and prints outs the reason" do
+    context "as an HTML request" do
+      it "returns no by default" do
         response = make_get_request
         expect(response.body).to match /NO/
-        expect(response.body).to match /idunno/
+        expect(response.body).to match /no data yet/
+      end
+
+      context "when the value is set to no" do
+        before do
+          make_put_request("no?reason=idunno&buildnumber=123")
+        end
+
+        it "returns no and prints outs the reason" do
+          response = make_get_request
+          expect(response.body).to match /NO/
+          expect(response.body).to match /idunno/
+        end
+      end
+    end
+
+    context "as a JSON request" do
+      it "returns the can_i_bump status" do
+        response = make_get_request(accept: :json)
+
+        content_type = response.headers[:content_type]
+        expect(content_type).to eq 'application/json'
+
+        parsed_response = JSON.parse(response.body)
+        expect(parsed_response).to eq({ "can_i_bump" => false })
       end
     end
   end

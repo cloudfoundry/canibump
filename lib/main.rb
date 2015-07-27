@@ -41,6 +41,10 @@ put "/:value" do |value|
   status 200
 end
 
-get "/" do
+get "/", :provides => 'html' do
   erb :main, :locals => { can_i_bump: final_decider.can_i_bump?, reasons: final_decider.reasons, build_number: ci.build_number }
+end
+
+get "/", :provides => 'json' do
+  { can_i_bump: final_decider.can_i_bump? }.to_json
 end

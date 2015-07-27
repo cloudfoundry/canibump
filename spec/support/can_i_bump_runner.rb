@@ -24,8 +24,8 @@ module CanIBumpRunner
     graceful_kill(@app_pid)
   end
 
-  def make_get_request
-    RestClient.get app_url
+  def make_get_request(accept: :html)
+    RestClient.get(app_url, accept: accept)
   end
 
   def make_put_request(path)
