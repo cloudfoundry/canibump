@@ -3,7 +3,7 @@ module Decider
     attr_reader :reason, :build_number
 
     def initialize
-      @value == false
+      @value = false
       @reason = "CI: no data yet"
       @build_number = -1
     end

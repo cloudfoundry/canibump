@@ -5,6 +5,10 @@ describe Decider::CI do
   subject(:ci) { described_class.new }
 
   describe "#can_i_bump?" do
+    it "returns false by default" do
+      expect(ci.can_i_bump?).to eq false
+    end
+
     context "when the build number is the latest encountered" do
       context "when can i bump set to yes" do
         before do
