@@ -13,15 +13,13 @@ describe FinalDecider do
     end
 
     context "when we have deciders" do
-      let(:pingdom) { Decider::Pingdom.new('app_key', 'username', 'password', 'hostname') }
       let(:ci) { Decider::CI.new }
-      let(:deciders) { [pingdom, ci] }
+      let(:deciders) { [ci] }
       let(:decider) { described_class.new deciders}
 
       context "when any of the concrete deciders return false" do
         before do
-          allow(pingdom).to receive(:can_i_bump?).and_return(false)
-          allow(ci).to receive(:can_i_bump?).and_return(true)
+          allow(ci).to receive(:can_i_bump?).and_return(false)
         end
 
         it "should return false" do
@@ -31,7 +29,6 @@ describe FinalDecider do
 
       context "when ALL of the concrete deciders return true" do
         before do
-          allow(pingdom).to receive(:can_i_bump?).and_return(true)
           allow(ci).to receive(:can_i_bump?).and_return(true)
         end
 

@@ -1,4 +1,3 @@
-require "deciders/pingdom"
 require "deciders/ci"
 
 class FinalDecider

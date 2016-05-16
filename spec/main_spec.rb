@@ -2,14 +2,7 @@ require "spec_helper"
 require "rest-client"
 
 describe "Sinatra Application" do
-  let(:original_environment) do
-    {
-      "PINGDOM_APP_KEY" => "app_key",
-      "PINGDOM_USERNAME" => "username",
-      "PINGDOM_PASSWORD" => "password",
-      "PINGDOM_HOSTNAME" => "hostname"
-    }
-  end
+  let(:original_environment) { {} }
 
   let(:environment) { original_environment }
 

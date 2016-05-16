@@ -1,20 +1,13 @@
 require "sinatra"
 $:.unshift(File.expand_path("../../lib", __FILE__))
 
+require "json"
 require "deciders/ci"
-require "deciders/pingdom"
 require "final_decider"
 require "input_validator"
 
 ci = Decider::CI.new
-# pingdom = Decider::Pingdom.new(
-#   ENV["PINGDOM_APP_KEY"],
-#   ENV["PINGDOM_USERNAME"],
-#   ENV["PINGDOM_PASSWORD"],
-#   ENV["PINGDOM_HOSTNAME"]
-# )
 
-# final_decider = FinalDecider.new([ci, pingdom])
 final_decider = FinalDecider.new([ci])
 
 set :protection, :except => :frame_options
