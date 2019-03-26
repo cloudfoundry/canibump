@@ -1,6 +1,6 @@
 module CanIBumpRunner
   PORT = 8181
-  START_TIMEOUT = 20
+  START_TIMEOUT = 2
   SLEEP_INTERVAL = 0.5
 
   def app_url
@@ -13,7 +13,7 @@ module CanIBumpRunner
 
     Integer(START_TIMEOUT/SLEEP_INTERVAL).times do
       sleep SLEEP_INTERVAL
-      result =make_get_request rescue nil
+      result = make_get_request rescue nil
       return if result && result.code.to_i == 200
     end
 

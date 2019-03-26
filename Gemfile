@@ -5,5 +5,5 @@ gem "rest-client"
 
 group :test do
   gem "rspec"
-  gem "webmock", "1.15"
+  gem "webmock"
 end
