@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/pivotal-cf-experimental/canibump.png)](https://travis-ci.org/pivotal-cf-experimental/canibump)
 #canibump
 
-The helper app that tells developers if it's all clear to push to cf-release based on CI status.
+The helper app that tells developers if it's all clear to push to CAPI's pipeline.
 
 ## API
 
