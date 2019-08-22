@@ -1,3 +1,5 @@
 ---
 applications:
 - name: canibump
+  buildpacks:
+  - ruby_buildpack

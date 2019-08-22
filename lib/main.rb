@@ -2,13 +2,17 @@ require "sinatra"
 $:.unshift(File.expand_path("../../lib", __FILE__))
 
 require "json"
-require "deciders/ci"
+require "deciders/stateful"
 require "final_decider"
 require "input_validator"
+require "mongo"
 
-ci = Decider::CI.new
+vcap_services = JSON.parse(ENV['VCAP_SERVICES'])
+client = Mongo::Client.new(vcap_services['mlab'][0]['credentials']['uri'], {retry_writes: false})
 
-final_decider = FinalDecider.new([ci])
+stateful_decider = Decider::Stateful.new(client)
+
+final_decider = FinalDecider.new([stateful_decider])
 
 set :protection, :except => :frame_options
 
@@ -31,12 +35,12 @@ put "/:value" do |value|
     return
   end
 
-  ci.set_can_i_bump(ok_to_bump, params["reason"], buildnumber)
+  stateful_decider.set_can_i_bump(ok_to_bump, params["reason"])
   status 200
 end
 
 get "/", :provides => 'html' do
-  erb :main, :locals => { can_i_bump: final_decider.can_i_bump?, reasons: final_decider.reasons, build_number: ci.build_number }
+  erb :main, :locals => { can_i_bump: final_decider.can_i_bump?, reasons: final_decider.reasons, build_number: stateful_decider.build_number }
 end
 
 get "/", :provides => 'json' do
